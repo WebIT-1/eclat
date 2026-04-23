@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Éclat Events – Organizare Evenimente Memorabile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9a96e;
+      --gold-light: #e8d5b0;
+      --gold-dark: #8b6c3e;
+      --cream: #faf7f2;
+      --dark: #1a1612;
+      --mid: #3d3428;
+      --text: #4a3f30;
+      --text-light: #7a6a54;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background .4s, backdrop-filter .4s, box-shadow .4s;
+    }
+    nav.scrolled {
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 30px rgba(0,0,0,0.08);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo svg { height: 48px; width: auto; transition: opacity .2s; }
+    .nav-logo svg:hover { opacity: 0.85; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content:'';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--gold-dark); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--gold-dark);
+      border: none;
+      padding: 0.65rem 1.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .3s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+
+    /* hamburger */
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { width:24px; height:1.5px; background:var(--mid); transition:.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #1a1410 0%, #2d2318 50%, #1a1410 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,169,110,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(201,169,110,0.08) 0%, transparent 60%);
+    }
+    .hero-texture {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a96e' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 0 5vw;
+      animation: heroIn 1.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes heroIn {
+      from { opacity:0; transform: translateY(30px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      animation: heroIn 1.2s .1s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      animation: heroIn 1.2s .2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 300;
+    }
+    .hero-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.5rem auto;
+      animation: heroIn 1.2s .3s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero-sub {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 300;
+      color: rgba(250,247,242,0.6);
+      letter-spacing: 0.08em;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      animation: heroIn 1.2s .4s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: heroIn 1.2s .5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      background: var(--gold);
+      color: var(--dark);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .3s, transform .2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      border: 1px solid rgba(201,169,110,0.5);
+      color: var(--gold-light);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color .3s, color .3s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(201,169,110,0.5);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: heroIn 1.2s 1s both;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity:0.4; transform: scaleY(1); }
+      50% { opacity:1; transform: scaleY(1.1); }
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 6rem 5vw; }
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.15;
+    }
+    .section-title em { font-style: italic; color: var(--gold-dark); }
+    .section-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.5rem 0;
+    }
+    .section-body {
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--text-light);
+      max-width: 600px;
+      font-size: 1rem;
+    }
+
+    /* ── DESPRE NOI ── */
+    #despre {
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .despre-visual {
+      position: relative;
+      height: 500px;
+    }
+    .despre-img-main {
+      position: absolute;
+      top: 0; left: 0;
+      width: 72%;
+      height: 85%;
+      background: linear-gradient(135deg, #d4b896, #c9a96e 40%, #8b6c3e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .despre-img-main::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='25' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E") center/cover;
+    }
+    .despre-monogram {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+      position: relative;
+    }
+    .despre-img-accent {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 55%;
+      height: 55%;
+      background: var(--mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .despre-stat {
+      text-align: center;
+    }
+    .despre-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .despre-stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.5);
+      margin-top: 0.4rem;
+    }
+    .despre-slogan {
+      margin-top: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      border-left: 2px solid var(--gold);
+      background: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* ── SERVICII ── */
+    #servicii {
+      background: var(--cream);
+      text-align: center;
+    }
+    #servicii .section-line { margin: 1.5rem auto; }
+    #servicii .section-body { margin: 0 auto 3.5rem; text-align:left; }
+    .servicii-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5px;
+      background: rgba(201,169,110,0.2);
+      border: 1px solid rgba(201,169,110,0.2);
+    }
+    .serviciu-card {
+      background: #fff;
+      padding: 2.5rem 2rem;
+      text-align: left;
+      transition: background .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .serviciu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--gold);
+      transition: height .4s;
+    }
+    .serviciu-card:hover { background: var(--cream); }
+    .serviciu-card:hover::before { height: 100%; }
+    .serviciu-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .serviciu-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--mid);
+      margin-bottom: 0.8rem;
+    }
+    .serviciu-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* ── PACHETE ── */
+    #pachete {
+      background: var(--mid);
+      position: relative;
+      overflow: hidden;
+    }
+    #pachete::before {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 70% 70% at 80% 20%, rgba(201,169,110,0.1) 0%, transparent 60%);
+    }
+    #pachete .section-title, #pachete .section-label { color: var(--gold-light); }
+    #pachete .section-title em { color: var(--gold); }
+    #pachete .section-line { background: var(--gold); }
+    #pachete .section-body { color: rgba(232,213,176,0.6); }
+    .pachete-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+      position: relative;
+    }
+    .pachet-card {
+      border: 1px solid rgba(201,169,110,0.25);
+      padding: 2.5rem 1.8rem;
+      position: relative;
+      transition: border-color .3s, transform .3s;
+      cursor: default;
+      background: rgba(255,255,255,0.03);
+    }
+    .pachet-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      background: rgba(201,169,110,0.07);
+    }
+    .pachet-card.featured {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.08);
+    }
+    .pachet-badge {
+      position: absolute;
+      top: -1px; right: 1.5rem;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      font-weight: 500;
+    }
+    .pachet-name {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .pachet-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .pachet-price span {
+      font-size: 1rem;
+      color: rgba(232,213,176,0.5);
+    }
+    .pachet-divider {
+      width: 30px;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+      margin: 1.2rem 0;
+    }
+    .pachet-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .pachet-features li {
+      font-size: 0.83rem;
+      font-weight: 300;
+      color: rgba(232,213,176,0.7);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+    .pachet-features li::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.5rem;
+      margin-top: 0.25rem;
+      flex-shrink: 0;
+    }
+    .extra-servicii {
+      margin-top: 3rem;
+      padding: 2rem;
+      border: 1px solid rgba(201,169,110,0.2);
+      background: rgba(255,255,255,0.02);
+    }
+    .extra-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 1.2rem;
+    }
+    .extra-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .extra-item {
+      background: rgba(201,169,110,0.1);
+      border: 1px solid rgba(201,169,110,0.2);
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
+      color: rgba(232,213,176,0.8);
+      font-weight: 300;
+    }
+    .extra-item strong { color: var(--gold); font-weight: 500; }
+
+    /* ── ECHIPA ── */
+    #echipa {
+      background: #fff;
+      text-align: center;
+    }
+    #echipa .section-line { margin: 1.5rem auto; }
+    .echipa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .echipa-card {
+      text-align: center;
+    }
+    .echipa-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: #fff;
+    }
+    .echipa-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .echipa-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--mid);
+    }
+    .echipa-desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--text-light);
+      margin-top: 0.5rem;
+      line-height: 1.7;
+    }
+
+    /* ── MOD DE LUCRU ── */
+    #mod-lucru {
+      background: var(--cream);
+    }
+    .mod-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .mod-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 2.5rem;
+    }
+    .mod-step {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+      position: relative;
+      transition: padding-left .3s;
+    }
+    .mod-step:last-child { border-bottom: none; }
+    .mod-step:hover { padding-left: 0.5rem; }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.25);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 3rem;
+    }
+    .step-content {}
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--mid);
+      margin-bottom: 0.4rem;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    .mod-visual {
+      position: relative;
+    }
+    .mod-box {
+      background: var(--mid);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mod-box::before {
+      content: '✦';
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      font-size: 10rem;
+      color: rgba(201,169,110,0.06);
+      line-height: 1;
+    }
+    .mod-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--gold-light);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .mod-quote-author {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── VIZIUNE & MISIUNE ── */
+    #viziune {
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .vm-block {
+      padding: 5rem 5vw;
+    }
+    .vm-block:first-child {
+      border-right: 1px solid rgba(201,169,110,0.2);
+    }
+    .vm-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .vm-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .vm-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--mid);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+    .vm-body {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.9;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 60% 60% at 20% 80%, rgba(201,169,110,0.12) 0%, transparent 60%);
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      position: relative;
+    }
+    #contact .section-label { color: var(--gold); }
+    #contact .section-title { color: var(--cream); }
+    #contact .section-title em { color: var(--gold); }
+    #contact .section-line { background: var(--gold); }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .contact-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .contact-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+    .contact-value {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: rgba(250,247,242,0.7);
+      line-height: 1.6;
+    }
+    .contact-value a {
+      color: inherit;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-value a:hover { color: var(--gold); }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.6);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,169,110,0.2);
+      color: var(--cream);
+      padding: 0.8rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color .3s;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(250,247,242,0.2); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group select { cursor: pointer; }
+    .form-group select option { background: var(--dark); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .3s, transform .2s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .form-msg {
+      font-size: 0.8rem;
+      padding: 0.8rem 1rem;
+      display: none;
+    }
+    .form-msg.success { background: rgba(201,169,110,0.15); border: 1px solid var(--gold); color: var(--gold-light); display: block; }
+    .form-msg.error { background: rgba(200,50,50,0.1); border: 1px solid rgba(200,50,50,0.3); color: #e08080; display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0e0c0a;
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(201,169,110,0.1);
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      letter-spacing: 0.06em;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(201,169,110,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #despre, .mod-grid, .contact-inner, #viziune {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      #viziune { display:block; }
+      .vm-block:first-child { border-right:none; border-bottom: 1px solid rgba(201,169,110,0.2); }
+      .despre-visual { height: 300px; }
+      .nav-links, .nav-cta { display:none; }
+      .hamburger { display:flex; }
+      nav.mobile-open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: rgba(250,247,242,0.97);
+        backdrop-filter: blur(10px);
+        padding: 2rem 5vw;
+        gap: 1.5rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+      nav.mobile-open .nav-cta {
+        display: block;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-inner { gap: 3rem; }
+      .hero-btns { flex-direction: column; align-items:center; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 5vw; }
+      .mod-grid { gap: 2rem; }
+    }
+    /* ── DJ SECTION ── */
+    #dj {
+      background: #111;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 5vw;
+    }
+    #dj::before {
+      content:'';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 55% at 95% 10%, rgba(201,169,110,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 0% 90%, rgba(201,169,110,0.06) 0%, transparent 60%);
+    }
+    #dj .section-label { color: var(--gold); }
+    #dj .section-title { color: #f5f0e8; }
+    #dj .section-title em { color: var(--gold); font-style: italic; }
+    #dj .section-line { background: var(--gold); }
+    #dj .section-body { color: rgba(245,240,232,0.45); }
+
+    .dj-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+    .dj-included-row { padding-top: 2.5rem; }
+    .dj-inc-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+      margin-bottom: 0.9rem;
+    }
+    .dj-inc-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .dj-pill {
+      border: 1px solid rgba(201,169,110,0.35);
+      color: rgba(232,213,176,0.7);
+      font-size: 0.75rem;
+      font-weight: 300;
+      padding: 0.4rem 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Pachete DJ */
+    .dj-pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(201,169,110,0.12);
+      border: 1px solid rgba(201,169,110,0.12);
+      margin-bottom: 5rem;
+      position: relative;
+    }
+    .dj-pkg-card {
+      background: #161616;
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: background .3s;
+    }
+    .dj-pkg-card:hover { background: #1c1c1c; }
+    .dj-pkg-featured { background: #181510; }
+    .dj-pkg-featured:hover { background: #1e1a0f; }
+    .dj-pkg-top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+    }
+    .dj-pkg-tag {
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      background: rgba(201,169,110,0.12);
+      border: 1px solid rgba(201,169,110,0.25);
+      padding: 0.25rem 0.6rem;
+    }
+    .dj-pkg-day {
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      margin-bottom: 1.2rem;
+    }
+    .dj-pkg-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .dj-pkg-currency {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.55);
+      letter-spacing: 0.1em;
+    }
+    .dj-pkg-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: #f0ebe0;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .dj-pkg-note {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.3);
+      line-height: 1.6;
+      border-top: 1px solid rgba(201,169,110,0.1);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ─── Extra-uri ─── */
+    .dj-extras-section { position: relative; }
+    .dj-extras-header {
+      margin-bottom: 2.5rem;
+    }
+    .dj-extras-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+      color: #f5f0e8;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .dj-extras-title em { font-style: italic; color: var(--gold); }
+    .dj-extras-sub {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.35);
+    }
+
+    .dj-extras-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: rgba(201,169,110,0.1);
+      border: 1px solid rgba(201,169,110,0.1);
+    }
+    .dj-extra-card {
+      background: #161616;
+      padding: 1.8rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: background .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .dj-extra-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width .4s ease;
+    }
+    .dj-extra-card:hover { background: #1c1a14; }
+    .dj-extra-card:hover::after { width: 100%; }
+    .dj-extra-card.dj-extra-ask { background: #181616; }
+    .dj-extra-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .dj-extra-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.18);
+      line-height: 1;
+    }
+    .dj-extra-price-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      text-align: right;
+    }
+    .dj-extra-price-tag span {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.5);
+    }
+    .dj-extra-price-tag.ask {
+      color: rgba(201,169,110,0.55);
+      font-size: 0.75rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+    .dj-extra-body {}
+    .dj-extra-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(245,240,232,0.85);
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+    }
+    .dj-extra-desc {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.3);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .dj-extras-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .dj-top { grid-template-columns: 1fr; gap: 2rem; }
+      .dj-pkg-grid { grid-template-columns: 1fr; }
+      .dj-extras-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .dj-extras-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo" aria-label="Éclat Events">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <!-- Outer circle -->
+    <circle cx="100" cy="100" r="94" stroke="#c9a96e" stroke-width="1.2"/>
+    <!-- Inner circle -->
+    <circle cx="100" cy="100" r="78" stroke="#c9a96e" stroke-width="0.6" stroke-dasharray="3 4"/>
+    <!-- Stars top -->
+    <text x="82" y="24" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+    <text x="100" y="20" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+    <text x="118" y="24" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+    <!-- Leaf/branch left (simplified path) -->
+    <g transform="translate(10,80)" opacity="0.9">
+      <path d="M8,40 C6,32 2,20 8,8" stroke="#c9a96e" stroke-width="1" fill="none"/>
+      <path d="M8,35 C4,30 0,24 4,18" stroke="#c9a96e" stroke-width="0.8" fill="none"/>
+      <path d="M8,28 C5,24 2,18 6,12" stroke="#c9a96e" stroke-width="0.8" fill="none"/>
+      <path d="M8,20 C6,16 4,10 8,6" stroke="#c9a96e" stroke-width="0.8" fill="none"/>
+      <ellipse cx="5" cy="30" rx="4" ry="7" transform="rotate(-30 5 30)" fill="#c9a96e" opacity="0.35"/>
+      <ellipse cx="5" cy="22" rx="4" ry="7" transform="rotate(-20 5 22)" fill="#c9a96e" opacity="0.35"/>
+      <ellipse cx="7" cy="14" rx="3" ry="6" transform="rotate(-10 7 14)" fill="#c9a96e" opacity="0.35"/>
+    </g>
+    <!-- ÉE monogram -->
+    <text x="100" y="118" font-family="Georgia, serif" font-size="58" font-weight="400" fill="#c9a96e" text-anchor="middle" letter-spacing="-4">ÉE</text>
+    <!-- Diagonal line through monogram -->
+    <line x1="83" y1="72" x2="117" y2="128" stroke="#b89458" stroke-width="1.2" opacity="0.7"/>
+    <!-- Bottom arc text -->
+    <path id="bottom-arc" d="M 20,100 A 80,80 0 0,0 180,100" fill="none"/>
+    <text font-family="'Jost',sans-serif" font-size="8.5" fill="#c9a96e" letter-spacing="2">
+      <textPath href="#bottom-arc" startOffset="18%">Éclat Events  |  Event Organizer</textPath>
+    </text>
+  </svg>
+</a>
+  <ul class="nav-links">
+    <li><a href="#despre">Despre noi</a></li>
+    <li><a href="#servicii">Servicii</a></li>
+    <li><a href="#pachete">Pachete Decor</a></li>
+    <li><a href="#dj">DJ & Muzică</a></li>
+    <li><a href="#echipa">Echipă</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Solicită ofertă</a>
+  <div class="hamburger" id="hamburger" aria-label="Meniu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Éclat Events &mdash; Organizare Evenimente</p>
+    <h1 class="hero-title">Transformăm<br/><em>momente</em><br/>în amintiri</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Evenimente elegante, memorabile și personalizate pentru fiecare ocazie specială.</p>
+    <div class="hero-btns">
+      <a href="#pachete" class="btn-primary">Descoperă pachetele</a>
+      <a href="#contact" class="btn-outline">Contactează-ne</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- DESPRE NOI -->
+<section id="despre">
+  <div class="despre-visual reveal">
+    <div class="despre-img-main">
+      <div class="despre-monogram">ÉE</div>
+    </div>
+    <div class="despre-img-accent">
+      <div class="despre-stat">
+        <div class="despre-stat-num">100+</div>
+        <div class="despre-stat-label">Evenimente reușite</div>
+      </div>
+    </div>
+  </div>
+  <div class="despre-text">
+    <span class="section-label reveal">Povestea noastră</span>
+    <h2 class="section-title reveal reveal-delay-1">O firmă fondată<br/><em>din pasiune</em></h2>
+    <div class="section-line reveal reveal-delay-2"></div>
+    <p class="section-body reveal reveal-delay-2">
+      Éclat Events este o firmă de organizare de evenimente fondată din dorința de a crea experiențe elegante și memorabile. La început, am organizat evenimente mici, câștigând treptat încrederea clienților prin atenția la detalii și profesionalism.
+    </p>
+    <p class="section-body reveal reveal-delay-3" style="margin-top:1rem;">
+      În timp, compania și-a extins activitatea către nunți, petreceri și evenimente corporate, devenind cunoscută pentru creativitate și servicii personalizate. Astăzi, oferim soluții complete pentru organizarea unor evenimente reușite.
+    </p>
+    <div class="despre-slogan reveal reveal-delay-3">
+      „Transformăm fiecare moment într-o amintire de neuitat!"
+    </div>
+  </div>
+</section>
+
+<!-- SERVICII -->
+<section id="servicii">
+  <span class="section-label reveal">Ce oferim</span>
+  <h2 class="section-title reveal reveal-delay-1">Serviciile <em>noastre</em></h2>
+  <div class="section-line"></div>
+  <p class="section-body reveal reveal-delay-2">O gamă variată de servicii complete pentru orice tip de eveniment.</p>
+  <div class="servicii-grid">
+    <div class="serviciu-card reveal">
+      <span class="serviciu-icon">💍</span>
+      <h3 class="serviciu-title">Evenimente Private</h3>
+      <p class="serviciu-desc">Nunți, botezuri și aniversări organizate cu rafinament și atenție la fiecare detaliu.</p>
+    </div>
+    <div class="serviciu-card reveal reveal-delay-1">
+      <span class="serviciu-icon">🏢</span>
+      <h3 class="serviciu-title">Evenimente Corporate</h3>
+      <p class="serviciu-desc">Conferințe, teambuilding-uri și lansări de produse cu un impact memorabil.</p>
+    </div>
+    <div class="serviciu-card reveal reveal-delay-2">
+      <span class="serviciu-icon">🌸</span>
+      <h3 class="serviciu-title">Decoruri Tematice</h3>
+      <p class="serviciu-desc">Concepte vizuale personalizate și decoruri tematice ce transformă orice spațiu.</p>
+    </div>
+    <div class="serviciu-card reveal reveal-delay-3">
+      <span class="serviciu-icon">📋</span>
+      <h3 class="serviciu-title">Planificare Detaliată</h3>
+      <p class="serviciu-desc">Managementul complet al evenimentului, de la concept până la detaliile finale.</p>
+    </div>
+    <div class="serviciu-card reveal reveal-delay-1">
+      <span class="serviciu-icon">🎯</span>
+      <h3 class="serviciu-title">Coordonare pe Loc</h3>
+      <p class="serviciu-desc">Coordonare completă pe durata desfășurării evenimentului pentru o experiență fără stres.</p>
+    </div>
+    <div class="serviciu-card reveal reveal-delay-2">
+      <span class="serviciu-icon">✨</span>
+      <h3 class="serviciu-title">Servicii Personalizate</h3>
+      <p class="serviciu-desc">Fiecare eveniment este unic — adaptăm serviciile exact după viziunea ta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PACHETE PREȚURI -->
+<section id="pachete">
+  <span class="section-label reveal">Prețuri transparente</span>
+  <h2 class="section-title reveal reveal-delay-1">Alege pachetul<br/><em>potrivit</em></h2>
+  <div class="section-line"></div>
+  <p class="section-body reveal reveal-delay-2">Pachete create pentru fiecare buget, fără compromisuri la calitate.</p>
+
+  <div class="pachete-grid">
+    <div class="pachet-card reveal">
+      <div class="pachet-name">Basic</div>
+      <div class="pachet-price">300 <span>lei</span></div>
+      <div class="pachet-divider"></div>
+      <ul class="pachet-features">
+        <li>Decor simplu</li>
+        <li>Aranjare spațiu</li>
+      </ul>
+    </div>
+    <div class="pachet-card reveal reveal-delay-1">
+      <div class="pachet-name">Standard</div>
+      <div class="pachet-price">600 <span>lei</span></div>
+      <div class="pachet-divider"></div>
+      <ul class="pachet-features">
+        <li>Decor personalizat</li>
+        <li>Fundal foto inclus</li>
+        <li>Masă candy</li>
+      </ul>
+    </div>
+    <div class="pachet-card featured reveal reveal-delay-2">
+      <div class="pachet-badge">Popular</div>
+      <div class="pachet-name">Premium</div>
+      <div class="pachet-price">1000 <span>lei</span></div>
+      <div class="pachet-divider"></div>
+      <ul class="pachet-features">
+        <li>Organizare completă</li>
+        <li>Decor complex</li>
+        <li>Montare + demontare</li>
+      </ul>
+    </div>
+    <div class="pachet-card reveal reveal-delay-3">
+      <div class="pachet-name">VIP</div>
+      <div class="pachet-price">1500+ <span>lei</span></div>
+      <div class="pachet-divider"></div>
+      <ul class="pachet-features">
+        <li>Concept unic exclusiv</li>
+        <li>Servicii complete premium</li>
+        <li>Consultant dedicat</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="extra-servicii reveal">
+    <div class="extra-title">Servicii extra disponibile</div>
+    <div class="extra-items">
+      <div class="extra-item">Decor baloane — <strong>de la 150 lei</strong></div>
+      <div class="extra-item">Fundal foto — <strong>de la 200 lei</strong></div>
+      <div class="extra-item">Masă candy — <strong>de la 250 lei</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- DJ & MUZICĂ -->
+<section id="dj">
+  <div class="dj-top reveal">
+    <div>
+      <span class="section-label">Muzică &amp; Sonorizare</span>
+      <h2 class="section-title">Pachete <em>DJ</em> pentru evenimentul tau</h2>
+      <div class="section-line"></div>
+      <p class="section-body">Fiecare pachet include sonorizare profesională, lumini de scenă și mașină de fum — tot ce ai nevoie pentru o atmosferă de neuitat.</p>
+    </div>
+    <div class="dj-included-row reveal reveal-delay-1">
+      <div class="dj-inc-label">Inclus în orice pachet</div>
+      <div class="dj-inc-pills">
+        <span class="dj-pill">Sonorizare profesională</span>
+        <span class="dj-pill">Lumini</span>
+        <span class="dj-pill">Mașină de fum</span>
+        <span class="dj-pill">Servicii DJ &amp; MC</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pachete zi -->
+  <div class="dj-pkg-grid">
+    <div class="dj-pkg-card reveal">
+      <div class="dj-pkg-day">Luni — Joi</div>
+      <div class="dj-pkg-price-wrap">
+        <span class="dj-pkg-currency">RON</span>
+        <span class="dj-pkg-amount">1.500</span>
+      </div>
+      <p class="dj-pkg-note">Tarif disponibil în orice zi lucrătoare</p>
+    </div>
+    <div class="dj-pkg-card reveal reveal-delay-1">
+      <div class="dj-pkg-day">Vineri &amp; Duminică</div>
+      <div class="dj-pkg-price-wrap">
+        <span class="dj-pkg-currency">RON</span>
+        <span class="dj-pkg-amount">1.700</span>
+      </div>
+      <p class="dj-pkg-note">Weekend prelungit cu energie maximă</p>
+    </div>
+    <div class="dj-pkg-card dj-pkg-featured reveal reveal-delay-2">
+      <div class="dj-pkg-top-bar"></div>
+      <div class="dj-pkg-tag">Cel mai cerut</div>
+      <div class="dj-pkg-day">Sâmbătă</div>
+      <div class="dj-pkg-price-wrap">
+        <span class="dj-pkg-currency" style="color:var(--gold);">RON</span>
+        <span class="dj-pkg-amount" style="color:var(--gold-light);">2.000</span>
+      </div>
+      <p class="dj-pkg-note">Cea mai populară zi pentru majorat</p>
+    </div>
+  </div>
+
+  <!-- Extra-uri -->
+  <div class="dj-extras-section">
+    <div class="dj-extras-header reveal">
+      <h3 class="dj-extras-title">Extra-uri <em>opționale</em></h3>
+      <p class="dj-extras-sub">Personalizează evenimentul cu show-uri și echipamente suplimentare</p>
+    </div>
+    <div class="dj-extras-grid">
+      <div class="dj-extra-card reveal">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">01</div>
+          <div class="dj-extra-price-tag">500 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Sonorizare avansată</div>
+          <div class="dj-extra-desc">Sistem adaptat numărului de persoane și dimensiunii sălii</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-1">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">02</div>
+          <div class="dj-extra-price-tag">3.000 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Sonorizare L'Acoustics</div>
+          <div class="dj-extra-desc">Sistem de top — calitate audio premium de concert</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-2">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">03</div>
+          <div class="dj-extra-price-tag">500–2.000 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Schele de lumini</div>
+          <div class="dj-extra-desc">Structuri 2m–8m înălțime pentru un show de lumini spectaculos</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">04</div>
+          <div class="dj-extra-price-tag">500 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show x2 Mașini de fum</div>
+          <div class="dj-extra-desc">Efect vertical și orizontal simultan pe ringul de dans</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-1">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">05</div>
+          <div class="dj-extra-price-tag">1.200 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show Bellydance</div>
+          <div class="dj-extra-desc">Spectacol de dans oriental — energie și eleganță pe scenă</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-2">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">06</div>
+          <div class="dj-extra-price-tag">1.700 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Ecran LED 3×2m</div>
+          <div class="dj-extra-desc">Display LED de mari dimensiuni pentru vizualuri și prezentări</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">07</div>
+          <div class="dj-extra-price-tag">500 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show Percuție</div>
+          <div class="dj-extra-desc">Percuție live pe toată durata evenimentului pentru ritm și energie</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-1">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">08</div>
+          <div class="dj-extra-price-tag">500 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show Tarabană</div>
+          <div class="dj-extra-desc">Instrument tradițional live pe toată durata evenimentului</div>
+        </div>
+      </div>
+      <div class="dj-extra-card reveal reveal-delay-2">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">09</div>
+          <div class="dj-extra-price-tag">600 <span>lei</span></div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show Mascotă Urs</div>
+          <div class="dj-extra-desc">Surpriză inedită și amuzantă pentru invitații de toate vârstele</div>
+        </div>
+      </div>
+      <div class="dj-extra-card dj-extra-ask reveal reveal-delay-1">
+        <div class="dj-extra-top">
+          <div class="dj-extra-num">10</div>
+          <div class="dj-extra-price-tag ask">La cerere</div>
+        </div>
+        <div class="dj-extra-body">
+          <div class="dj-extra-name">Show Vioară / Saxofon</div>
+          <div class="dj-extra-desc">Muzică live de calitate — preț personalizat în funcție de durată</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECHIPA -->
+<section id="echipa">
+  <span class="section-label reveal">Oamenii din spate</span>
+  <h2 class="section-title reveal reveal-delay-1">Echipa <em>noastră</em></h2>
+  <div class="section-line" style="margin:1.5rem auto;"></div>
+  <div class="echipa-grid">
+    <div class="echipa-card reveal">
+      <div class="echipa-avatar">OE</div>
+      <div class="echipa-role">Organizator Evenimente</div>
+      <div class="echipa-name">Event Planner</div>
+      <div class="echipa-desc">Planifică și coordonează fiecare eveniment cu precizie și creativitate.</div>
+    </div>
+    <div class="echipa-card reveal reveal-delay-1">
+      <div class="echipa-avatar">DD</div>
+      <div class="echipa-role">Designer Decor</div>
+      <div class="echipa-name">Creative Designer</div>
+      <div class="echipa-desc">Creează concepte vizuale personalizate și decoruri de excepție.</div>
+    </div>
+    <div class="echipa-card reveal reveal-delay-2">
+      <div class="echipa-avatar">AL</div>
+      <div class="echipa-role">Asistent Logistic</div>
+      <div class="echipa-name">Logistic Manager</div>
+      <div class="echipa-desc">Gestionează materialele, montajul și demontajul pentru fiecare eveniment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MOD DE LUCRU -->
+<section id="mod-lucru">
+  <div class="mod-grid">
+    <div>
+      <span class="section-label reveal">Procesul nostru</span>
+      <h2 class="section-title reveal reveal-delay-1">Cum <em>lucrăm</em></h2>
+      <div class="section-line reveal reveal-delay-2"></div>
+      <div class="mod-steps">
+        <div class="mod-step reveal">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">Consultație inițială</div>
+            <div class="step-desc">Discutăm viziunea ta, bugetul și așteptările pentru a înțelege perfect ce îți dorești.</div>
+          </div>
+        </div>
+        <div class="mod-step reveal reveal-delay-1">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">Propunere personalizată</div>
+            <div class="step-desc">Creăm un concept unic și o ofertă detaliată adaptată exact nevoilor tale.</div>
+          </div>
+        </div>
+        <div class="mod-step reveal reveal-delay-2">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">Planificare și pregătire</div>
+            <div class="step-desc">Ne ocupăm de toate detaliile: furnizori, decoruri, logistică, timeline.</div>
+          </div>
+        </div>
+        <div class="mod-step reveal reveal-delay-3">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <div class="step-title">Ziua evenimentului</div>
+            <div class="step-desc">Coordonăm totul pe loc pentru ca tu să te bucuri fără griji de momentele speciale.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mod-visual reveal reveal-delay-2">
+      <div class="mod-box">
+        <div class="mod-quote">
+          „Fiecare eveniment este o capodoperă unică, creată cu inimă și profesionalism."
+        </div>
+        <div class="mod-quote-author">— Éclat Events</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIZIUNE & MISIUNE -->
+<section id="viziune" style="padding:0;">
+  <div class="vm-block reveal">
+    <div class="vm-icon">🔭</div>
+    <div class="vm-title">Viziunea noastră</div>
+    <div class="vm-heading">Să fim prima<br/>alegere</div>
+    <p class="vm-body">Aspirăm să devenim liderul de referință în organizarea de evenimente din România, cunoscuți pentru eleganță, inovație și experiențe care depășesc așteptările clienților noștri.</p>
+  </div>
+  <div class="vm-block reveal reveal-delay-1">
+    <div class="vm-icon">🎯</div>
+    <div class="vm-title">Misiunea noastră</div>
+    <div class="vm-heading">Momente de<br/>neuitat</div>
+    <p class="vm-body">Misiunea noastră este să transformăm fiecare eveniment într-o experiență memorabilă prin creativitate, atenție la detalii și un serviciu personalizat care reflectă perfect dorințele fiecărui client.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <span class="section-label reveal">Hai să vorbim</span>
+      <h2 class="section-title reveal reveal-delay-1">Contactează-<em>ne</em></h2>
+      <div class="section-line reveal reveal-delay-2"></div>
+      <div class="contact-info">
+        <div class="contact-item reveal">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Adresă</div>
+            <div class="contact-value">Ploiești, Strada Teleajăn, nr. 11, România</div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-1">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Telefon</div>
+            <div class="contact-value"><a href="tel:0244578259">0244 578 259</a></div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="mailto:eclat.events2025@gmail.com">eclat.events2025@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <div class="contact-label">Website</div>
+            <div class="contact-value"><a href="http://www.eclatevent.ro" target="_blank">www.eclatevent.ro</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form reveal reveal-delay-1">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nume și prenume</label>
+            <input type="text" id="f-name" placeholder="ex. Maria Ionescu" />
+          </div>
+          <div class="form-group">
+            <label>Telefon</label>
+            <input type="tel" id="f-phone" placeholder="07xx xxx xxx" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="adresa@email.com" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tip eveniment</label>
+            <select id="f-type">
+              <option value="">Selectează...</option>
+              <option>Nuntă</option>
+              <option>Botez</option>
+              <option>Aniversare</option>
+              <option>Eveniment Corporate</option>
+              <option>Alt eveniment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Data evenimentului</label>
+            <input type="date" id="f-date" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Serviciu dorit</label>
+          <select id="f-service">
+            <option value="">Selectează pachetul...</option>
+            <option>Pachet Decor Basic – 300 lei</option>
+            <option>Pachet Decor Standard – 600 lei</option>
+            <option>Pachet Decor Premium – 1000 lei</option>
+            <option>Pachet Decor VIP – 1500+ lei</option>
+            <option>DJ Pachet Luni-Joi – 1500 lei</option>
+            <option>DJ Pachet Vineri/Duminică – 1700 lei</option>
+            <option>DJ Pachet Sâmbătă – 2000 lei</option>
+            <option>Pachet complet Decor + DJ</option>
+            <option>Serviciu personalizat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Detalii suplimentare</label>
+          <textarea id="f-details" placeholder="Spune-ne mai multe despre evenimentul tău..."></textarea>
+        </div>
+        <div id="form-msg" class="form-msg"></div>
+        <button class="form-submit" onclick="submitForm()">Trimite solicitarea</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" style="height:40px;width:auto;opacity:0.6;">
+      <circle cx="100" cy="100" r="94" stroke="#c9a96e" stroke-width="1.2"/>
+      <circle cx="100" cy="100" r="78" stroke="#c9a96e" stroke-width="0.6" stroke-dasharray="3 4"/>
+      <text x="82" y="24" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+      <text x="100" y="20" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+      <text x="118" y="24" font-family="serif" font-size="7" fill="#c9a96e" text-anchor="middle">★</text>
+      <g transform="translate(10,80)" opacity="0.9">
+        <path d="M8,40 C6,32 2,20 8,8" stroke="#c9a96e" stroke-width="1" fill="none"/>
+        <ellipse cx="5" cy="30" rx="4" ry="7" transform="rotate(-30 5 30)" fill="#c9a96e" opacity="0.35"/>
+        <ellipse cx="5" cy="22" rx="4" ry="7" transform="rotate(-20 5 22)" fill="#c9a96e" opacity="0.35"/>
+        <ellipse cx="7" cy="14" rx="3" ry="6" transform="rotate(-10 7 14)" fill="#c9a96e" opacity="0.35"/>
+      </g>
+      <text x="100" y="118" font-family="Georgia, serif" font-size="58" font-weight="400" fill="#c9a96e" text-anchor="middle" letter-spacing="-4">ÉE</text>
+      <line x1="83" y1="72" x2="117" y2="128" stroke="#b89458" stroke-width="1.2" opacity="0.7"/>
+      <path id="footer-arc" d="M 20,100 A 80,80 0 0,0 180,100" fill="none"/>
+      <text font-family="'Jost',sans-serif" font-size="8.5" fill="#c9a96e" letter-spacing="2">
+        <textPath href="#footer-arc" startOffset="18%">Éclat Events  |  Event Organizer</textPath>
+      </text>
+    </svg>
+  </div>
+  <div class="footer-copy">&copy; 2025 Éclat Events. Toate drepturile rezervate.</div>
+</footer>
+
+<script>
+  // NAV scroll effect
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    nav.classList.toggle('mobile-open');
+  });
+  // Close on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      nav.classList.remove('mobile-open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function submitForm() {
+    const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const msg = document.getElementById('form-msg');
+    msg.className = 'form-msg';
+    if (!name || !email) {
+      msg.textContent = 'Te rugăm completează cel puțin numele și email-ul.';
+      msg.className = 'form-msg error';
+      return;
+    }
+    msg.textContent = 'Mulțumim! Solicitarea ta a fost trimisă. Te vom contacta în cel mai scurt timp.';
+    msg.className = 'form-msg success';
+    // Reset fields
+    ['f-name','f-phone','f-email','f-type','f-date','f-service','f-details'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+  }
+</script>
+</body>
+</html>
