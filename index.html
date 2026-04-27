@@ -968,6 +968,36 @@
       .addons-grid, .gallery-grid { grid-template-columns: 1fr; }
     }
 
+
+
+    /* ── CATALOG PDF UPDATE ── */
+    .catalog-note {
+      margin-top: 1.2rem;
+      padding: 1rem 1.2rem;
+      border-left: 2px solid var(--gold);
+      background: rgba(201,169,110,0.08);
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    #pachete-private { background:#fff; }
+    #pachete-private .section-line { margin:1.5rem auto; }
+    .private-package-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:1.2rem; margin-top:3rem; }
+    .private-package-card { background:var(--cream); border:1px solid rgba(201,169,110,0.28); padding:1.8rem; text-align:left; display:flex; flex-direction:column; gap:0.8rem; }
+    .private-package-card.featured { background:#fff; box-shadow:0 20px 45px rgba(0,0,0,0.08); }
+    .private-code { font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+    .private-package-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.45rem; color:var(--mid); line-height:1.2; }
+    .private-menu { font-size:0.85rem; color:var(--gold-dark); line-height:1.6; }
+    .private-price { margin-top:auto; font-family:'Cormorant Garamond',serif; font-size:1.45rem; color:var(--gold-dark); }
+    .private-package-card ul { padding-left:1rem; color:var(--text-light); font-size:0.82rem; line-height:1.7; }
+    .catalog-highlights { display:grid; grid-template-columns: repeat(3,1fr); gap:1rem; margin-top:2rem; }
+    .catalog-highlight { padding:1.3rem; background:var(--cream); border:1px solid rgba(201,169,110,0.25); text-align:left; }
+    .catalog-highlight strong { display:block; font-family:'Cormorant Garamond',serif; color:var(--mid); font-size:1.2rem; margin-bottom:0.4rem; }
+    .catalog-highlight span { color:var(--text-light); font-size:0.85rem; line-height:1.7; }
+    .code-tag { display:block; margin-top:0.4rem; font-size:0.65rem; color:var(--gold-dark); letter-spacing:0.12em; text-transform:uppercase; font-family:'Jost', sans-serif; }
+    @media (max-width: 1100px) { .private-package-grid { grid-template-columns: repeat(2,1fr); } .catalog-highlights { grid-template-columns:1fr; } }
+    @media (max-width: 600px) { .private-package-grid { grid-template-columns:1fr; } }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       #despre, .mod-grid, .contact-inner, #viziune {
@@ -1277,7 +1307,7 @@
   <ul class="nav-links">
     <li><a href="#despre">Despre noi</a></li>
     <li><a href="#servicii">Servicii</a></li>
-    <li><a href="#pachete">Pachete Decor</a></li>
+    <li><a href="#pachete-private">Pachete Private</a></li>
     <li><a href="#oferta-corporate">Ofertă Corporate</a></li>
     <li><a href="#galerie">Galerie</a></li>
     <li><a href="#dj">DJ & Muzică</a></li>
@@ -1299,9 +1329,9 @@
     <p class="hero-company">F.E. ECLAT EVENTS SRL</p>
     <h1 class="hero-title">Transformăm<br/><em>momente</em><br/>în amintiri</h1>
     <div class="hero-divider"></div>
-    <p class="hero-sub">Evenimente elegante, memorabile și personalizate pentru fiecare ocazie specială.</p>
+    <p class="hero-sub">Catalog complet de servicii pentru nunți, botezuri, majorate, baby shower, conferințe și concepte corporate.</p>
     <div class="hero-btns">
-      <a href="#pachete" class="btn-primary">Descoperă pachetele</a>
+      <a href="#pachete-private" class="btn-primary">Descoperă catalogul</a>
       <a href="#contact" class="btn-outline">Contactează-ne</a>
     </div>
   </div>
@@ -1329,10 +1359,10 @@
     <h2 class="section-title reveal reveal-delay-1">O firmă fondată<br/><em>din pasiune</em></h2>
     <div class="section-line reveal reveal-delay-2"></div>
     <p class="section-body reveal reveal-delay-2">
-      Éclat Events este o firmă de organizare de evenimente fondată din dorința de a crea experiențe elegante și memorabile. La început, am organizat evenimente mici, câștigând treptat încrederea clienților prin atenția la detalii și profesionalism.
+      Éclat Events a luat naștere din dorința de a crea experiențe elegante și memorabile. Am început cu evenimente mici, câștigând încrederea clienților prin atenția la detalii și profesionalism.
     </p>
     <p class="section-body reveal reveal-delay-3" style="margin-top:1rem;">
-      În timp, compania și-a extins activitatea către nunți, petreceri și evenimente corporate, devenind cunoscută pentru creativitate și servicii personalizate. Astăzi, oferim soluții complete pentru organizarea unor evenimente reușite.
+      Astăzi, oferim soluții complete pentru organizarea evenimentelor de succes: private, corporate, design, logistică și divertisment, cu servicii personalizate pentru fiecare client.
     </p>
     <div class="despre-slogan reveal reveal-delay-3">
       „Transformăm fiecare moment într-o amintire de neuitat!"
@@ -1345,7 +1375,7 @@
   <span class="section-label reveal">Ce oferim</span>
   <h2 class="section-title reveal reveal-delay-1">Serviciile <em>noastre</em></h2>
   <div class="section-line"></div>
-  <p class="section-body reveal reveal-delay-2">O gamă variată de servicii complete pentru orice tip de eveniment.</p>
+  <p class="section-body reveal reveal-delay-2">De la concepte creative la execuție impecabilă: evenimente private, soluții corporate, logistică, design și divertisment.</p>
   <div class="servicii-grid">
     <div class="serviciu-card reveal">
       <span class="serviciu-icon">💍</span>
@@ -1445,13 +1475,59 @@
   </div>
 </section>
 
+<!-- PACHETE PRIVATE DIN CATALOG -->
+<section id="pachete-private">
+  <div class="oferta-head">
+    <span class="section-label reveal">Universul evenimentelor private</span>
+    <h2 class="section-title reveal reveal-delay-1">Pachete complete <em>din catalog</em></h2>
+    <div class="section-line reveal reveal-delay-2"></div>
+    <p class="section-body reveal reveal-delay-2" style="margin:0 auto; text-align:center;">Pachete dedicate pentru Nuntă, Botez, Majorat și Baby Shower, cu meniu, decor, DJ, divertisment și coordonator de eveniment.</p>
+  </div>
+  <div class="private-package-grid">
+    <div class="private-package-card featured reveal">
+      <div class="private-code">Cod serviciu OO1 + O35</div>
+      <h3>Pachet Nuntă „Éclat Diamond”</h3>
+      <p class="private-menu">Meniu „Grand Éclat”: gustare rece, pește, sarmale, friptură, tortul mirilor și open bar.</p>
+      <ul><li>DJ profesionist & MC</li><li>Sonorizare premium, lumini, ecran LED 3x2m</li><li>Gheață carbonică, artificii de interior, show-uri live</li><li>Panou foto, candy bar, event planner</li></ul>
+      <div class="private-price">475 lei / persoană<br/><span style="font-size:0.9rem;color:var(--text-light);">4.900 lei / eveniment</span></div>
+    </div>
+    <div class="private-package-card reveal reveal-delay-1">
+      <div class="private-code">Cod serviciu OO2 + 036</div>
+      <h3>Pachet Botez</h3>
+      <p class="private-menu">Meniu „Grand Classic”: gustare rece, sarmale, fel principal, salată de sezon și tort personalizat.</p>
+      <ul><li>DJ & sonorizare completă</li><li>Lumini ambientale, oglindă foto / photo corner</li><li>Decor tematic complet și candy bar</li><li>Animatori, mascotă urs și coordonator dedicat</li></ul>
+      <div class="private-price">330 lei / persoană<br/><span style="font-size:0.9rem;color:var(--text-light);">4.200 lei / eveniment</span></div>
+    </div>
+    <div class="private-package-card reveal reveal-delay-2">
+      <div class="private-code">Cod serviciu OO3 + 037</div>
+      <h3>Pachet „Majorat Epic”</h3>
+      <p class="private-menu">Meniu „Party Street Food”: pizza, crispy bar, mini sliders, tort, donut wall și băuturi răcoritoare.</p>
+      <ul><li>DJ profesionist & lumini dinamice</li><li>Oglindă foto 4 ore + accesorii</li><li>Mașină de fum greu, video booth 360</li><li>Decor tematic și cifre volumetrice luminoase</li></ul>
+      <div class="private-price">230 lei / persoană<br/><span style="font-size:0.9rem;color:var(--text-light);">3.800 lei / eveniment</span></div>
+    </div>
+    <div class="private-package-card reveal reveal-delay-3">
+      <div class="private-code">Cod serviciu OO4 + 0038</div>
+      <h3>Pachet Baby Shower</h3>
+      <p class="private-menu">Meniu „Sweet Moments”: cocktailuri, limonadă, gustări reci, mini rulouri, tort tematic și cupcakes.</p>
+      <ul><li>Decor tematic complet</li><li>Candy Bar / Sweet Corner</li><li>DJ ambiental, oglindă foto, photo corner</li><li>Mașină de fum greu și jocuri interactive</li></ul>
+      <div class="private-price">170 lei / persoană<br/><span style="font-size:0.9rem;color:var(--text-light);">3.500 lei / eveniment</span></div>
+    </div>
+  </div>
+  <div class="catalog-highlights reveal reveal-delay-2">
+    <div class="catalog-highlight"><strong>Design personalizat</strong><span>Decoruri, arcade, panouri, aranjamente florale, set-up-uri de masă și lumini arhitecturale adaptate tematicii.</span></div>
+    <div class="catalog-highlight"><strong>Divertisment complet</strong><span>DJ, MC, percuție, tarabană, bellydance, video booth 360, oglindă foto și momente speciale.</span></div>
+    <div class="catalog-highlight"><strong>Logistică fără griji</strong><span>Planificare riguroasă, management de proiect, coordonare furnizori și coordonator dedicat la eveniment.</span></div>
+  </div>
+</section>
+
+
 <!-- OFERTĂ CORPORATE -->
 <section id="oferta-corporate">
   <div class="oferta-head">
     <span class="section-label reveal">Ofertă servicii corporate</span>
     <h2 class="section-title reveal reveal-delay-1">Pachete pentru <em>companii</em></h2>
     <div class="section-line reveal reveal-delay-2"></div>
-    <p class="section-body reveal reveal-delay-2" style="margin:0 auto; text-align:center;">Soluții complete pentru conferințe, lansări de produse, aniversări de companie și team building-uri.</p>
+    <p class="section-body reveal reveal-delay-2" style="margin:0 auto; text-align:center;">Excelență și profesionalism pentru imaginea firmei tale: conferințe, workshop-uri, lansări de produs, gale, dineuri de afaceri, petreceri de companie și teambuilding-uri.</p>
     <div class="oferta-meta reveal reveal-delay-3">
       <div class="oferta-pill"><strong>Prestator:</strong> F.E. ECLAT EVENTS SRL</div>
       <div class="oferta-pill"><strong>Valabilitate:</strong> 30 de zile</div>
@@ -1461,7 +1537,7 @@
   <div class="corporate-grid">
     <div class="corporate-card reveal">
       <div class="corporate-img" style="background-image:url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80')"></div>
-      <h3 class="corporate-title">Pachet „Basic Conference”</h3>
+      <h3 class="corporate-title">Pachet „Basic Conference” <span class="code-tag">cod O20</span></h3>
       <p class="corporate-ideal">Ideal pentru ședințe, seminarii sau workshop-uri de o zi.</p>
       <ul class="corporate-list">
         <li>Închiriere sală conferințe dotată cu videoproiector, ecran și sistem audio.</li>
@@ -1469,12 +1545,12 @@
         <li>Materiale consumabile: mape, pixuri și ecusoane.</li>
         <li>Asistență tehnică pe durata evenimentului.</li>
       </ul>
-      <div class="corporate-price">45 EUR / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
+      <div class="corporate-price">225 lei / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
     </div>
 
     <div class="corporate-card featured reveal reveal-delay-1">
       <div class="corporate-img" style="background-image:url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=80')"></div>
-      <h3 class="corporate-title">Pachet „Gala Dinner &amp; Product Launch”</h3>
+      <h3 class="corporate-title">Pachet „Gala Dinner &amp; Product Launch” <span class="code-tag">cod O21</span></h3>
       <p class="corporate-ideal">Ideal pentru lansări de produse sau aniversări de companie.</p>
       <ul class="corporate-list">
         <li>Locație premium cu decor tematic personalizat.</li>
@@ -1483,12 +1559,12 @@
         <li>Sistem de lumini arhitecturale și scenă.</li>
         <li>Servicii PR: comunicat de presă și invitare influenceri simulați.</li>
       </ul>
-      <div class="corporate-price">85 EUR / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
+      <div class="corporate-price">425 lei / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
     </div>
 
     <div class="corporate-card reveal reveal-delay-2">
       <div class="corporate-img" style="background-image:url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=900&q=80')"></div>
-      <h3 class="corporate-title">Pachet „Team Building Adventure”</h3>
+      <h3 class="corporate-title">Pachet „Team Building Adventure” <span class="code-tag">cod O23</span></h3>
       <p class="corporate-ideal">Focus pe motivarea echipei și activități interactive.</p>
       <ul class="corporate-list">
         <li>Cazare 1 noapte la locație parteneră + pensiune completă.</li>
@@ -1496,16 +1572,16 @@
         <li>Coordonator de eveniment dedicat.</li>
         <li>Diplome și premii simbolice pentru participanți.</li>
       </ul>
-      <div class="corporate-price">120 EUR / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
+      <div class="corporate-price">600 lei / persoană <span style="font-size:0.8rem; color:var(--text-light);">fără TVA</span></div>
     </div>
   </div>
 
   <div class="addons-box reveal reveal-delay-2">
     <div class="extra-title" style="color:var(--mid);">Servicii opționale — Add-ons</div>
     <div class="addons-grid">
-      <div class="addon-item"><strong>Foto-Video profesional:</strong><br/>250 EUR / eveniment</div>
-      <div class="addon-item"><strong>Interpretariat simultan:</strong><br/>300 EUR / zi, 2 limbi</div>
-      <div class="addon-item"><strong>Transport delegat:</strong><br/>1.5 EUR / km, microbuz</div>
+      <div class="addon-item"><strong>Foto-Video profesional:</strong><br/>1.250 lei / eveniment [cod 041]</div>
+      <div class="addon-item"><strong>Interpretariat simultan:</strong><br/>1.500 lei / zi, 2 limbi [cod 042]</div>
+      <div class="addon-item"><strong>Transport delegat:</strong><br/>7,5 lei / km, microbuz [cod 043]</div>
       <div class="addon-item"><strong>Personalizare:</strong><br/>adaptare în funcție de cerințele clientului</div>
     </div>
     <p class="conditions"><strong>Condiții comerciale:</strong> 30% avans la semnarea contractului, restul de 70% în termen de 5 zile de la finalizarea evenimentului. Pachetele pot fi adaptate în funcție de cerințele specifice ale clientului.</p>
@@ -1675,15 +1751,19 @@
 
 <!-- GALERIE -->
 <section id="galerie">
-  <span class="section-label reveal">Inspirație vizuală</span>
-  <h2 class="section-title reveal reveal-delay-1">Galerie de <em>evenimente</em></h2>
+  <span class="section-label reveal">Galerie catalog</span>
+  <h2 class="section-title reveal reveal-delay-1">Inspirație pentru <em>evenimentul tău</em></h2>
   <div class="section-line"></div>
-  <p class="section-body reveal reveal-delay-2" style="margin:0 auto; text-align:center;">Câteva direcții vizuale pentru conferințe, cine festive, decoruri elegante și momente de echipă.</p>
+  <p class="section-body reveal reveal-delay-2" style="margin:0 auto;text-align:center;">Decoruri tematice, arcade de poveste, candy bar, torturi personalizate, set-up-uri corporate, lumini dinamice și atmosferă premium.</p>
   <div class="gallery-grid">
-    <div class="gallery-photo tall reveal" style="background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80')"></div>
-    <div class="gallery-photo reveal reveal-delay-1" style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80')"></div>
-    <div class="gallery-photo tall reveal reveal-delay-2" style="background-image:url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80')"></div>
-    <div class="gallery-photo reveal reveal-delay-3" style="background-image:url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=800&q=80')"></div>
+    <div class="gallery-photo tall reveal" style="background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo reveal reveal-delay-1" style="background-image:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo tall reveal reveal-delay-2" style="background-image:url('https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo reveal reveal-delay-3" style="background-image:url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo reveal" style="background-image:url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo tall reveal reveal-delay-1" style="background-image:url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo reveal reveal-delay-2" style="background-image:url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=80')"></div>
+    <div class="gallery-photo tall reveal reveal-delay-3" style="background-image:url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=80')"></div>
   </div>
 </section>
 
@@ -1692,55 +1772,15 @@
   <span class="section-label reveal">Oamenii din spate</span>
   <h2 class="section-title reveal reveal-delay-1">Echipa <em>noastră</em></h2>
   <div class="section-line" style="margin:1.5rem auto;"></div>
-  <div class="echipa-grid">
-    <div class="echipa-card reveal">
-      <div class="echipa-avatar">DG</div>
-      <div class="echipa-role">Director General</div>
-      <div class="echipa-name">General Manager</div>
-      <div class="echipa-desc">Coordonează strategia companiei, relația cu partenerii și direcția fiecărui proiect.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-1">
-      <div class="echipa-avatar">OE</div>
-      <div class="echipa-role">Organizator Evenimente</div>
-      <div class="echipa-name">Event Planner</div>
-      <div class="echipa-desc">Planifică și coordonează fiecare eveniment cu precizie și creativitate.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-2">
-      <div class="echipa-avatar">DD</div>
-      <div class="echipa-role">Designer Decor</div>
-      <div class="echipa-name">Creative Designer</div>
-      <div class="echipa-desc">Creează concepte vizuale personalizate și decoruri de excepție.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-3">
-      <div class="echipa-avatar">MC</div>
-      <div class="echipa-role">Marketing &amp; Comunicare</div>
-      <div class="echipa-name">PR Specialist</div>
-      <div class="echipa-desc">Promovează evenimentele, pregătește comunicarea și gestionează imaginea brandului.</div>
-    </div>
-    <div class="echipa-card reveal">
-      <div class="echipa-avatar">CF</div>
-      <div class="echipa-role">Coordonator Financiar</div>
-      <div class="echipa-name">Finance Coordinator</div>
-      <div class="echipa-desc">Urmărește bugetele, ofertele, contractele și costurile fiecărui eveniment.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-1">
-      <div class="echipa-avatar">AL</div>
-      <div class="echipa-role">Asistent Logistic</div>
-      <div class="echipa-name">Logistic Manager</div>
-      <div class="echipa-desc">Gestionează materialele, montajul și demontajul pentru fiecare eveniment.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-2">
-      <div class="echipa-avatar">CT</div>
-      <div class="echipa-role">Coordonator Tehnic</div>
-      <div class="echipa-name">Technical Coordinator</div>
-      <div class="echipa-desc">Se ocupă de sunet, lumini, videoproiecție și suport tehnic în timpul evenimentului.</div>
-    </div>
-    <div class="echipa-card reveal reveal-delay-3">
-      <div class="echipa-avatar">RC</div>
-      <div class="echipa-role">Relații Clienți</div>
-      <div class="echipa-name">Client Service</div>
-      <div class="echipa-desc">Menține legătura cu beneficiarii și se asigură că cerințele sunt clar comunicate.</div>
-    </div>
+  <div class="echipa-grid" style="max-width:1100px;">
+    <div class="echipa-card reveal"><div class="echipa-avatar">DG</div><div class="echipa-role">Director General</div><div class="echipa-name">Management</div><div class="echipa-desc">Coordonează întreaga activitate, contractele și reprezentarea firmei.</div></div>
+    <div class="echipa-card reveal reveal-delay-1"><div class="echipa-avatar">AM</div><div class="echipa-role">Asistent Manager</div><div class="echipa-name">Administrație</div><div class="echipa-desc">Gestionează agenda și fluxul de documente interne.</div></div>
+    <div class="echipa-card reveal reveal-delay-2"><div class="echipa-avatar">DP</div><div class="echipa-role">Director Planificare</div><div class="echipa-name">Event Strategy</div><div class="echipa-desc">Creează scenariul evenimentului și coordonează echipa operațională.</div></div>
+    <div class="echipa-card reveal"><div class="echipa-avatar">RL</div><div class="echipa-role">Responsabil Logistică</div><div class="echipa-name">Logistics</div><div class="echipa-desc">Gestionează locațiile, transportul și echipamentele tehnice.</div></div>
+    <div class="echipa-card reveal reveal-delay-1"><div class="echipa-avatar">CT</div><div class="echipa-role">Coordonator Tehnic</div><div class="echipa-name">Sound & Lights</div><div class="echipa-desc">Se ocupă de sonorizare, lumini și echipamente tehnice.</div></div>
+    <div class="echipa-card reveal reveal-delay-2"><div class="echipa-avatar">CD</div><div class="echipa-role">Coordonator Catering & Decor</div><div class="echipa-name">Design & Catering</div><div class="echipa-desc">Se ocupă de meniuri, aranjamente florale și estetică.</div></div>
+    <div class="echipa-card reveal"><div class="echipa-avatar">VM</div><div class="echipa-role">Vânzări & Marketing</div><div class="echipa-name">Client Relations</div><div class="echipa-desc">Trimite oferte, negociază parteneriate și gestionează promovarea.</div></div>
+    <div class="echipa-card reveal reveal-delay-1"><div class="echipa-avatar">FC</div><div class="echipa-role">Financiar & Contabil</div><div class="echipa-name">Finance</div><div class="echipa-desc">Elaborează bugete, monitorizează profitabilitatea și facturile.</div></div>
   </div>
 </section>
 
@@ -1842,7 +1882,7 @@
           <div class="contact-icon">🌐</div>
           <div>
             <div class="contact-label">Website</div>
-            <div class="contact-value"><a href="https://webit-1.github.io/eclat/" target="_blank">https://webit-1.github.io/eclat/</a></div>
+            <div class="contact-value"><a href="http://www.eclatevent.ro" target="_blank">www.eclatevent.ro</a></div>
           </div>
         </div>
       </div>
